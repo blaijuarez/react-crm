@@ -1,11 +1,11 @@
 import Layout from '../components/Layout'
 
-export default function Index() {
+export default function Productos() {
   return (
     <div>
       <Layout>
         <h1 className="text-2xl text-gray-800 font-light">
-          Clientes
+          Productos
         </h1>
       </Layout>
     </div>
