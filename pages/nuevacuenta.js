@@ -1,8 +1,30 @@
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useMutation, gql } from '@apollo/client'
+
+const CUENTA_NUEVA = gql`
+  mutation nuevoUsuario($input: UsuarioInput) {
+    nuevoUsuario(input: $input) {
+      id
+      nombre
+      apellido
+    }
+  }
+`
 
 export default function NuevaCuenta() {
+  // State para el mensaje
+  const [mensaje, guardarMensaje] = useState(null)
+
+  // Crear nuevo usuario
+  const [ nuevoUsuario ] = useMutation(CUENTA_NUEVA)
+
+  // Routing
+  const router = useRouter()
+
   // Validación formulario
   const formik = useFormik({
     initialValues: {
@@ -23,13 +45,41 @@ export default function NuevaCuenta() {
                 .required('El password es obligatorio')
                 .min(6, 'El password debe tener mínimo 6 caracteres')
     }),
-    onSubmit: values => {
-      console.log(values)
+    onSubmit: async values => {
+      try {
+        await nuevoUsuario({
+          variables: {
+            input: { ...values }
+          }
+        })
+
+        // Usuario creado correctamente
+        guardarMensaje(`Gracias ${values.nombre}! Te acabas de registrar.`)
+        setTimeout(() => {
+          guardarMensaje(null)
+          router.push('/login')
+        }, 3000)
+
+      } catch (error) {
+        guardarMensaje(error.message.replace('GraphQL error:', ''))
+        setTimeout(() => guardarMensaje(null), 3000)
+      }
     }
   })
+
+  const mostrarMensaje = () => {
+    return (
+      <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto">
+        <p>{mensaje}</p>
+      </div>
+    )
+  }
+
+
   return (
     <>
       <Layout>
+        { mensaje && mostrarMensaje() }
         <h1 className="text-center text-2xl text-white font-light">Crear nueva cuenta</h1>
         <div className="flex justify-center mt-5">
           <div className="w-full max-w-sm">
