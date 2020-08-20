@@ -4,14 +4,7 @@ import Layout from '../components/Layout'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useMutation, gql } from '@apollo/client'
-
-const AUTENTICAR_USUARIO = gql`
-  mutation autenticarUsuario($input: AutenticarInput) {
-    autenticarUsuario(input: $input) {
-      token
-    }
-  }
-`
+import { AUTENTICAR_USUARIO } from '../config/queries'
 
 export default function Login() {
   // State para el mensaje
@@ -73,8 +66,8 @@ export default function Login() {
   return (
     <>
       <Layout>
-        { mensaje && mostrarMensaje() }
         <h1 className="text-center text-2xl text-white font-light">Login</h1>
+        { mensaje && mostrarMensaje() }
         <div className="flex justify-center mt-5">
           <div className="w-full max-w-sm">
             <form 

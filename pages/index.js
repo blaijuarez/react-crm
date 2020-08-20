@@ -2,18 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 import Layout from '../components/Layout'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-
-const OBTENER_CLIENTES_USUARIO = gql`
-  query obtenerClientesVendedor {
-    obtenerClientesVendedor {
-      id
-      nombre
-      apellido
-      empresa
-      email
-    }
-  }
-`
+import { OBTENER_CLIENTES_USUARIO } from '../config/queries'
 
 export default function Index() {
   // Router

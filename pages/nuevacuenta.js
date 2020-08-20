@@ -4,16 +4,7 @@ import Layout from '../components/Layout'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useMutation, gql } from '@apollo/client'
-
-const CUENTA_NUEVA = gql`
-  mutation nuevoUsuario($input: UsuarioInput) {
-    nuevoUsuario(input: $input) {
-      id
-      nombre
-      apellido
-    }
-  }
-`
+import { CUENTA_NUEVA } from '../config/queries'
 
 export default function NuevaCuenta() {
   // State para el mensaje
@@ -79,8 +70,8 @@ export default function NuevaCuenta() {
   return (
     <>
       <Layout>
-        { mensaje && mostrarMensaje() }
         <h1 className="text-center text-2xl text-white font-light">Crear nueva cuenta</h1>
+        { mensaje && mostrarMensaje() }
         <div className="flex justify-center mt-5">
           <div className="w-full max-w-sm">
             <form
