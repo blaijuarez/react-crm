@@ -1,27 +1,35 @@
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { gql, useMutation } from '@apollo/client'
-import { useRouter } from 'next/router'
-
-const NUEVO_CLIENTE = gql`
-  mutation nuevoCliente($input: ClienteInput) {
-    nuevoCliente(input: $input) {
-      id
-      nombre
-      empresa
-      email
-      vendedor
-    }
-  }
-`
+import { useMutation } from '@apollo/client'
+import { NUEVO_CLIENTE, OBTENER_CLIENTES_USUARIO } from '../config/queries'
 
 export default function NuevoCliente() {
+  // State para el mensaje
+  const [mensaje, guardarMensaje] = useState(null)
+
   // Uso del router
   const router = useRouter()
 
   // Mutation para crear nuevos clientes
-  const  [ nuevoCliente ] = useMutation(NUEVO_CLIENTE)
+  const  [ nuevoCliente ] = useMutation(NUEVO_CLIENTE, {
+    update(cache, { data: { nuevoCliente } }) {
+      // Obtener el objeto de caché que deseamos actualizar
+      const { obtenerClientesVendedor } = cache.readQuery({
+        query: OBTENER_CLIENTES_USUARIO
+      })
+
+      // Reescribimos el caché
+      cache.writeQuery({
+        query: OBTENER_CLIENTES_USUARIO,
+        data: {
+          obtenerClientesVendedor: [...obtenerClientesVendedor, nuevoCliente]
+        }
+      })
+    }
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -52,15 +60,24 @@ export default function NuevoCliente() {
         // Redirigimos a la página dee clientes una vez creado
         router.push('/')
       } catch (error) {
-        console.log(error)
+        guardarMensaje(error.message.replace('GraphQL error:', ''))
+        setTimeout(() => guardarMensaje(null), 3000)
       }
     }
   });
 
+  const mostrarMensaje = () => {
+    return (
+      <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto">
+        <p>{mensaje}</p>
+      </div>
+    )
+  }
+
   return (
     <Layout>
       <h1 className="text-2xl text-gray-800 font-light">Nuevo Cliente</h1>
-
+      { mensaje && mostrarMensaje() }
       <div className="flex justify-enter mt-5">
         <div className="w-full max-w-lg">
           <form
