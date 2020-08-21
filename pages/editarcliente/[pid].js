@@ -31,6 +31,8 @@ export default function EditarCliente() {
 
   if (loading) return 'Cargando...'
 
+  const { obtenerCliente } = data
+
   console.log(data)
   console.log(loading)
   console.log(error)
@@ -41,7 +43,15 @@ export default function EditarCliente() {
 
       <div className="flex justify-enter mt-5">
         <div className="w-full max-w-lg">
-          <Formik validationSchema={schemaValidacion}>
+          <Formik
+            validationSchema={schemaValidacion}
+            enableReinitialize
+            initialValues={obtenerCliente}
+            onSubmit={values => {
+              try {
+              } catch (error) {}
+            }}
+          >
             {props => {
               return (
                 <form
@@ -62,7 +72,7 @@ export default function EditarCliente() {
                       placeholder="Nombre cliente"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
-                      // value={props.values.nombre}
+                      value={props.values.nombre}
                     />
                   </div>
 
@@ -87,7 +97,7 @@ export default function EditarCliente() {
                       placeholder="Apellido cliente"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
-                      // value={props.values.apellido}
+                      value={props.values.apellido}
                     />
                   </div>
 
@@ -112,7 +122,7 @@ export default function EditarCliente() {
                       placeholder="Empresa cliente"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
-                      // value={props.values.empresa}
+                      value={props.values.empresa}
                     />
                   </div>
 
@@ -137,7 +147,7 @@ export default function EditarCliente() {
                       placeholder="Email cliente"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
-                      // value={props.values.email}
+                      value={props.values.email}
                     />
                   </div>
 
@@ -162,7 +172,7 @@ export default function EditarCliente() {
                       placeholder="Telefono cliente"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
-                      // value={props.values.telefono}
+                      value={props.values.telefono}
                     />
                   </div>
 
@@ -176,7 +186,7 @@ export default function EditarCliente() {
                   <input
                     type="submit"
                     className="bg-gray-800 w-full mt-5 p-2 text-white uppercase font-bold hover:bg-gray-900"
-                    value="Registrar Cliente"
+                    value="Guardar cambios"
                   ></input>
                 </form>
               )
