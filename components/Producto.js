@@ -1,7 +1,28 @@
 import Swal from 'sweetalert2'
+import { useMutation } from '@apollo/client'
+import { ELIMINAR_PRODUCTO, OBTENER_PRODUCTOS } from 'config/queries'
 
 export default function Producto({ producto }) {
-  const { nombre, existencia, precio } = producto
+  const { nombre, existencia, precio, id } = producto
+
+  // Mutation para eliminar productos
+  const [eliminarProducto] = useMutation(ELIMINAR_PRODUCTO, {
+    update(cache) {
+      // obtener copia de la caché
+      const { obtenerProductos } = cache.readQuery({
+        query: OBTENER_PRODUCTOS
+      })
+
+      cache.writeQuery({
+        query: OBTENER_PRODUCTOS,
+        data: {
+          obtenerProductos: obtenerProductos.filter(
+            producto => producto.id !== id
+          )
+        }
+      })
+    }
+  })
 
   // Eliminar producto
   const confirmarEliminarProducto = () => {
@@ -16,6 +37,17 @@ export default function Producto({ producto }) {
       cancelButtonText: 'No, cancelar'
     }).then(async result => {
       if (result.value) {
+        try {
+          // Eliminar producto de la BBDD
+          const { data } = await eliminarProducto({
+            variables: { id }
+          })
+
+          // Abre modal de confirmación
+          Swal.fire('¡Eliminado!', data.eliminarProducto, 'success')
+        } catch (error) {
+          console.log(error)
+        }
       }
     })
   }

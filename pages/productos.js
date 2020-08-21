@@ -5,13 +5,9 @@ import { OBTENER_PRODUCTOS } from 'config/queries'
 
 export default function Productos() {
   // Consultar productos
-  const { data, loading, error } = useQuery(OBTENER_PRODUCTOS)
+  const { data, loading } = useQuery(OBTENER_PRODUCTOS)
 
   if (loading) return 'Cargando...'
-
-  console.log(data)
-  console.log(loading)
-  console.log(error)
 
   return (
     <div>

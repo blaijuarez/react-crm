@@ -38,7 +38,6 @@ export const AUTENTICAR_USUARIO = gql`
     }
   }
 `
-
 export const CUENTA_NUEVA = gql`
   mutation nuevoUsuario($input: UsuarioInput) {
     nuevoUsuario(input: $input) {
@@ -48,7 +47,6 @@ export const CUENTA_NUEVA = gql`
     }
   }
 `
-
 export const ELIMINAR_CLIENTE = gql`
   mutation eliminarCliente($id: ID!) {
     eliminarCliente(id: $id)
@@ -82,5 +80,10 @@ export const OBTENER_PRODUCTOS = gql`
       precio
       existencia
     }
+  }
+`
+export const ELIMINAR_PRODUCTO = gql`
+  mutation eliminarProducto($id: ID!) {
+    eliminarProducto(id: $id)
   }
 `
