@@ -50,7 +50,7 @@ export default function NuevoCliente() {
     onSubmit: async values => {
       try {
         // Registramos el cliente en la BBDD
-        const { data } = await nuevoCliente({
+        await nuevoCliente({
           variables: { input: { ...values } }
         })
 
