@@ -1,16 +1,16 @@
 import { gql } from '@apollo/client'
 
 export const NUEVO_CLIENTE = gql`
-    mutation nuevoCliente($input: ClienteInput) {
-      nuevoCliente(input: $input) {
-        id
-        nombre
-        empresa
-        email
-        vendedor
-      }
+  mutation nuevoCliente($input: ClienteInput) {
+    nuevoCliente(input: $input) {
+      id
+      nombre
+      empresa
+      email
+      vendedor
     }
-  `
+  }
+`
 export const OBTENER_CLIENTES_USUARIO = gql`
   query obtenerClientesVendedor {
     obtenerClientesVendedor {

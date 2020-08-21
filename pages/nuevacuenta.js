@@ -11,7 +11,7 @@ export default function NuevaCuenta() {
   const [mensaje, guardarMensaje] = useState(null)
 
   // Crear nuevo usuario
-  const [ nuevoUsuario ] = useMutation(CUENTA_NUEVA)
+  const [nuevoUsuario] = useMutation(CUENTA_NUEVA)
 
   // Routing
   const router = useRouter()
@@ -25,16 +25,14 @@ export default function NuevaCuenta() {
       password: ''
     },
     validationSchema: Yup.object({
-      nombre: Yup.string()
-                .required('El nombre es obligatorio'),
-      apellido: Yup.string()
-                .required('El apellido es obligatorio'),
+      nombre: Yup.string().required('El nombre es obligatorio'),
+      apellido: Yup.string().required('El apellido es obligatorio'),
       email: Yup.string()
-                .email('El email no es válido')
-                .required('El email es obligatorio'),
+        .email('El email no es válido')
+        .required('El email es obligatorio'),
       password: Yup.string()
-                .required('El password es obligatorio')
-                .min(6, 'El password debe tener mínimo 6 caracteres')
+        .required('El password es obligatorio')
+        .min(6, 'El password debe tener mínimo 6 caracteres')
     }),
     onSubmit: async values => {
       try {
@@ -50,7 +48,6 @@ export default function NuevaCuenta() {
           guardarMensaje(null)
           router.push('/login')
         }, 3000)
-
       } catch (error) {
         guardarMensaje(error.message.replace('GraphQL error:', ''))
         setTimeout(() => guardarMensaje(null), 3000)
@@ -66,12 +63,13 @@ export default function NuevaCuenta() {
     )
   }
 
-
   return (
     <>
       <Layout>
-        <h1 className="text-center text-2xl text-white font-light">Crear nueva cuenta</h1>
-        { mensaje && mostrarMensaje() }
+        <h1 className="text-center text-2xl text-white font-light">
+          Crear nueva cuenta
+        </h1>
+        {mensaje && mostrarMensaje()}
         <div className="flex justify-center mt-5">
           <div className="w-full max-w-sm">
             <form
@@ -79,7 +77,10 @@ export default function NuevaCuenta() {
               onSubmit={formik.handleSubmit}
             >
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="nombre"
+                >
                   Nombre
                 </label>
                 <input
@@ -93,15 +94,18 @@ export default function NuevaCuenta() {
                 />
               </div>
 
-              { formik.touched.nombre && formik.errors.nombre ? (
+              {formik.touched.nombre && formik.errors.nombre ? (
                 <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
                   <p className="font-bold">Error</p>
-                  <p>{ formik.errors.nombre }</p>
+                  <p>{formik.errors.nombre}</p>
                 </div>
-              ) : null }
+              ) : null}
 
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="apellido">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="apellido"
+                >
                   Apellido
                 </label>
                 <input
@@ -114,15 +118,18 @@ export default function NuevaCuenta() {
                 />
               </div>
 
-              { formik.touched.apellido && formik.errors.apellido ? (
+              {formik.touched.apellido && formik.errors.apellido ? (
                 <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
                   <p className="font-bold">Error</p>
-                  <p>{ formik.errors.apellido }</p>
+                  <p>{formik.errors.apellido}</p>
                 </div>
-              ) : null }
+              ) : null}
 
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="email"
+                >
                   Email
                 </label>
                 <input
@@ -135,15 +142,18 @@ export default function NuevaCuenta() {
                 />
               </div>
 
-              { formik.touched.email && formik.errors.email ? (
+              {formik.touched.email && formik.errors.email ? (
                 <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
                   <p className="font-bold">Error</p>
-                  <p>{ formik.errors.email }</p>
+                  <p>{formik.errors.email}</p>
                 </div>
-              ) : null }
+              ) : null}
 
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="password"
+                >
                   Password
                 </label>
                 <input
@@ -156,19 +166,18 @@ export default function NuevaCuenta() {
                 />
               </div>
 
-              { formik.touched.password && formik.errors.password ? (
+              {formik.touched.password && formik.errors.password ? (
                 <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
                   <p className="font-bold">Error</p>
-                  <p>{ formik.errors.password }</p>
+                  <p>{formik.errors.password}</p>
                 </div>
-              ) : null }
+              ) : null}
 
               <input
                 type="submit"
                 className="bg-gray-800 w-full mt-5 p-2 text-white uppercase hover:bg-gray-900"
                 value="Crear cuenta"
               />
-
             </form>
           </div>
         </div>

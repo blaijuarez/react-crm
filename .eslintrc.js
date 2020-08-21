@@ -9,10 +9,7 @@ module.exports = {
     es2020: true,
     node: true
   },
-  extends: [
-    'plugin:react/recommended',
-    'standard'
-  ],
+  extends: ['plugin:react/recommended', 'standard', 'prettier'],
   parserOptions: {
     ecmaFeatures: {
       jsx: true

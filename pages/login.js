@@ -11,7 +11,7 @@ export default function Login() {
   const [mensaje, guardarMensaje] = useState(null)
 
   // Crear nuevo usuario
-  const [ autenticarUsuario ] = useMutation(AUTENTICAR_USUARIO)
+  const [autenticarUsuario] = useMutation(AUTENTICAR_USUARIO)
 
   // Routing
   const router = useRouter()
@@ -23,11 +23,9 @@ export default function Login() {
     },
     validationSchema: Yup.object({
       email: Yup.string()
-                .email('El email no es válido')
-                .required('El email es obligatorio'),
-      password: Yup.string()
-                .required('El password es obligatorio')
-                .min(6)
+        .email('El email no es válido')
+        .required('El email es obligatorio'),
+      password: Yup.string().required('El password es obligatorio').min(6)
     }),
     onSubmit: async values => {
       try {
@@ -38,16 +36,17 @@ export default function Login() {
         })
 
         // Usuario creado correctamente
-        guardarMensaje(`Autenticando...`)
+        guardarMensaje('Autenticando...')
         // Guardar token en sesion storage
-        const { autenticarUsuario: { token } } = data;
+        const {
+          autenticarUsuario: { token }
+        } = data
         sessionStorage.setItem('token', token)
 
         setTimeout(() => {
           guardarMensaje(null)
           router.push('/')
         }, 2000)
-
       } catch (error) {
         guardarMensaje(error.message.replace('GraphQL error:', ''))
         setTimeout(() => guardarMensaje(null), 3000)
@@ -67,15 +66,18 @@ export default function Login() {
     <>
       <Layout>
         <h1 className="text-center text-2xl text-white font-light">Login</h1>
-        { mensaje && mostrarMensaje() }
+        {mensaje && mostrarMensaje()}
         <div className="flex justify-center mt-5">
           <div className="w-full max-w-sm">
-            <form 
+            <form
               className="bg-white rounded shadow-md px-8 pt-6 pb-8 mb-4"
               onSubmit={formik.handleSubmit}
             >
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="email"
+                >
                   Email
                 </label>
                 <input
@@ -89,15 +91,18 @@ export default function Login() {
                 />
               </div>
 
-              { formik.touched.email && formik.errors.email ? (
+              {formik.touched.email && formik.errors.email ? (
                 <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
                   <p className="font-bold">Error</p>
-                  <p>{ formik.errors.email }</p>
+                  <p>{formik.errors.email}</p>
                 </div>
-              ) : null }
+              ) : null}
 
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="password"
+                >
                   Password
                 </label>
                 <input
@@ -111,19 +116,18 @@ export default function Login() {
                 />
               </div>
 
-              { formik.touched.password && formik.errors.password ? (
+              {formik.touched.password && formik.errors.password ? (
                 <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
                   <p className="font-bold">Error</p>
-                  <p>{ formik.errors.password }</p>
+                  <p>{formik.errors.password}</p>
                 </div>
-              ) : null }
+              ) : null}
 
               <input
                 type="submit"
                 className="bg-gray-800 w-full mt-5 p-2 text-white uppercase hover:bg-gray-900"
                 value="Iniciar sesión"
               />
-
             </form>
           </div>
         </div>

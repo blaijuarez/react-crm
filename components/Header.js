@@ -5,14 +5,14 @@ import { OBTENER_USUARIO } from 'config/queries'
 export default function Header() {
   // Router
   const router = useRouter()
-  
+
   // Query Apollo
-  const { data, loading, error } = useQuery(OBTENER_USUARIO)
+  const { data, loading } = useQuery(OBTENER_USUARIO)
 
   if (loading) return null
-  
+
   if (!data) {
-    return  router.push('/login')
+    return router.push('/login')
   }
 
   const { nombre, apellido } = data.obtenerUsuario
@@ -24,7 +24,9 @@ export default function Header() {
 
   return (
     <div className="flex justify-between mb-6">
-      <p className="mr-2">Hola {nombre} {apellido}</p>
+      <p className="mr-2">
+        Hola {nombre} {apellido}
+      </p>
 
       <button
         onClick={cerrarSesion}
