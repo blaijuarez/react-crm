@@ -1,34 +1,12 @@
-import Router from 'next/router'
 import Swal from 'sweetalert2'
-import { useMutation } from '@apollo/client'
-import { ELIMINAR_CLIENTE, OBTENER_CLIENTES_USUARIO } from 'config/queries'
 
-export default function Cliente({ cliente }) {
-  const { id, nombre, apellido, empresa, email } = cliente
+export default function Producto({ producto }) {
+  const { nombre, existencia, precio } = producto
 
-  // Mutation eliminar cliente
-  const [eliminarCliente] = useMutation(ELIMINAR_CLIENTE, {
-    update(cache) {
-      // obtener copia de la caché
-      const { obtenerClientesVendedor } = cache.readQuery({
-        query: OBTENER_CLIENTES_USUARIO
-      })
-      // Reescribir la caché
-      cache.writeQuery({
-        query: OBTENER_CLIENTES_USUARIO,
-        data: {
-          obtenerClientesVendedor: obtenerClientesVendedor.filter(
-            cliente => cliente.id !== id
-          )
-        }
-      })
-    }
-  })
-
-  // Eliminar cliente
-  const confirmarEliminarCliente = () => {
+  // Eliminar producto
+  const confirmarEliminarProducto = () => {
     Swal.fire({
-      title: `¿Quieres eliminar a ${nombre} ${apellido}?`,
+      title: `Vas a eliminar ${nombre} de tu inventario`,
       text: 'Una vez eliminado no se podrá recuperar',
       icon: 'warning',
       showCancelButton: true,
@@ -38,39 +16,20 @@ export default function Cliente({ cliente }) {
       cancelButtonText: 'No, cancelar'
     }).then(async result => {
       if (result.value) {
-        try {
-          // Eliminar de la BBDD por ID
-          const { data } = await eliminarCliente({
-            variables: { id }
-          })
-
-          // Mostrar alerta
-          Swal.fire('¡Eliminado!', data.eliminarCliente, 'success')
-        } catch (error) {}
       }
-    })
-  }
-
-  // Editar cliente
-  const editarCliente = () => {
-    Router.push({
-      pathname: '/editarcliente/[id]',
-      query: { id }
     })
   }
 
   return (
     <tr>
-      <td className="border px-4 py-2">
-        {nombre} {apellido}
-      </td>
-      <td className="border px-4 py-2">{empresa}</td>
-      <td className="border px-4 py-2">{email}</td>
+      <td className="border px-4 py-2">{nombre}</td>
+      <td className="border px-4 py-2">{existencia} unidades</td>
+      <td className="border px-4 py-2">{precio} €</td>
       <td className="border px-4 py-2">
         <button
           type="button"
           className="flex justify-center items-center bg-red-800 py-2 px-4 w-full text-white rounded text-xs uppercase font-bold"
-          onClick={confirmarEliminarCliente}
+          onClick={confirmarEliminarProducto}
         >
           Eliminar
           <svg
@@ -92,7 +51,7 @@ export default function Cliente({ cliente }) {
         <button
           type="button"
           className="flex justify-center items-center bg-green-600 py-2 px-4 w-full text-white rounded text-xs uppercase font-bold"
-          onClick={editarCliente}
+          // onClick={() => editarCliente()}
         >
           Editar
           <svg

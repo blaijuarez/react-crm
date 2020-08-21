@@ -74,3 +74,13 @@ export const ACTUALIZAR_CLIENTE = gql`
     }
   }
 `
+export const OBTENER_PRODUCTOS = gql`
+  query obtenerProductos {
+    obtenerProductos {
+      id
+      nombre
+      precio
+      existencia
+    }
+  }
+`
