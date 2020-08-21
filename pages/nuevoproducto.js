@@ -5,12 +5,23 @@ import * as Yup from 'yup'
 import { NUEVO_PRODUCTO } from 'config/queries'
 
 export default function NuevoProducto() {
+  // Formulario para nueevos productos
   const formik = useFormik({
     initialValues: {
       nombre: '',
-      existencia: 0,
-      precio: 0
+      existencia: '',
+      precio: ''
     },
+    validationSchema: Yup.object({
+      nombre: Yup.string().required('El nombre del producto es obligatorio'),
+      existencia: Yup.number()
+        .required('Escribe la cantidad disponible')
+        .positive('No se aceptan números negativos')
+        .integer('Solo números enteros'),
+      precio: Yup.number()
+        .required('El precio es obligatorio')
+        .positive('No se aceptan números negativos')
+    }),
     onSubmit: async values => {}
   })
   return (
