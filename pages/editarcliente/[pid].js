@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import Layout from 'components/Layout'
 import { useQuery } from '@apollo/client'
 import { Formik } from 'formik'
+import * as Yup from 'yup'
 import { OBTENER_CLIENTE } from 'config/queries'
 
 export default function EditarCliente() {
@@ -18,6 +19,16 @@ export default function EditarCliente() {
     }
   })
 
+  // Scheema de validación
+  const schemaValidacion = Yup.object({
+    nombre: Yup.string().required('El nombre es obligatorio'),
+    apellido: Yup.string().required('El apellido es obligatorio'),
+    empresa: Yup.string().required('El campo empresa es obligatorio'),
+    email: Yup.string()
+      .email('El email no es válido')
+      .required('El email es obligatorio')
+  })
+
   if (loading) return 'Cargando...'
 
   console.log(data)
@@ -30,7 +41,7 @@ export default function EditarCliente() {
 
       <div className="flex justify-enter mt-5">
         <div className="w-full max-w-lg">
-          <Formik>
+          <Formik validationSchema={schemaValidacion}>
             {props => {
               return (
                 <form
@@ -55,12 +66,12 @@ export default function EditarCliente() {
                     />
                   </div>
 
-                  {/* {props.touched.nombre && props.errors.nombre ? (
-              <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-                <p className="font-bold">Error</p>
-                <p>{props.errors.nombre}</p>
-              </div>
-            ) : null} */}
+                  {props.touched.nombre && props.errors.nombre ? (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.nombre}</p>
+                    </div>
+                  ) : null}
 
                   <div className="mb-4">
                     <label
@@ -80,12 +91,12 @@ export default function EditarCliente() {
                     />
                   </div>
 
-                  {/* {props.touched.apellido && props.errors.apellido ? (
-              <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-                <p className="font-bold">Error</p>
-                <p>{props.errors.apellido}</p>
-              </div>
-            ) : null} */}
+                  {props.touched.apellido && props.errors.apellido ? (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.apellido}</p>
+                    </div>
+                  ) : null}
 
                   <div className="mb-4">
                     <label
@@ -105,12 +116,12 @@ export default function EditarCliente() {
                     />
                   </div>
 
-                  {/* {props.touched.empresa && props.errors.empresa ? (
-              <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-                <p className="font-bold">Error</p>
-                <p>{props.errors.empresa}</p>
-              </div>
-            ) : null} */}
+                  {props.touched.empresa && props.errors.empresa ? (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.empresa}</p>
+                    </div>
+                  ) : null}
 
                   <div className="mb-4">
                     <label
@@ -130,12 +141,12 @@ export default function EditarCliente() {
                     />
                   </div>
 
-                  {/* {props.touched.email && props.errors.email ? (
-              <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-                <p className="font-bold">Error</p>
-                <p>{props.errors.email}</p>
-              </div>
-            ) : null} */}
+                  {props.touched.email && props.errors.email ? (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.email}</p>
+                    </div>
+                  ) : null}
 
                   <div className="mb-4">
                     <label
@@ -155,12 +166,12 @@ export default function EditarCliente() {
                     />
                   </div>
 
-                  {/* {props.touched.telefono && props.errors.telefono ? (
-              <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
-                <p className="font-bold">Error</p>
-                <p>{props.errors.telefono}</p>
-              </div>
-            ) : null} */}
+                  {props.touched.telefono && props.errors.telefono ? (
+                    <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
+                      <p className="font-bold">Error</p>
+                      <p>{props.errors.telefono}</p>
+                    </div>
+                  ) : null}
 
                   <input
                     type="submit"
