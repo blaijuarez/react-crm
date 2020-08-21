@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router'
 import Layout from 'components/Layout'
-import { useQuery } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { OBTENER_CLIENTE } from 'config/queries'
+import Swal from 'sweetalert2'
+import { OBTENER_CLIENTE, ACTUALIZAR_CLIENTE } from 'config/queries'
 
 export default function EditarCliente() {
   // Obtener ID vía queryparams
@@ -13,11 +14,14 @@ export default function EditarCliente() {
   } = router
 
   // Consultar cliente
-  const { data, loading, error } = useQuery(OBTENER_CLIENTE, {
+  const { data, loading } = useQuery(OBTENER_CLIENTE, {
     variables: {
       id
     }
   })
+
+  // Actualizar el cliente
+  const [actualizarCliente] = useMutation(ACTUALIZAR_CLIENTE)
 
   // Scheema de validación
   const schemaValidacion = Yup.object({
@@ -33,9 +37,30 @@ export default function EditarCliente() {
 
   const { obtenerCliente } = data
 
-  console.log(data)
-  console.log(loading)
-  console.log(error)
+  // Modifica cliente en la BBDD
+  const actualizarDatosCliente = async values => {
+    const { nombre, apellido, empresa, email, telefono } = values
+    try {
+      await actualizarCliente({
+        variables: {
+          id,
+          input: { nombre, apellido, empresa, email, telefono }
+        }
+      })
+
+      // Mostrar alerta
+      Swal.fire(
+        '¡Actualizado!',
+        'El cliente se actualizó correctamente',
+        'success'
+      )
+
+      // Redireccionar al listado de clientes
+      router.push('/')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <Layout>
@@ -47,10 +72,7 @@ export default function EditarCliente() {
             validationSchema={schemaValidacion}
             enableReinitialize
             initialValues={obtenerCliente}
-            onSubmit={values => {
-              try {
-              } catch (error) {}
-            }}
+            onSubmit={actualizarDatosCliente}
           >
             {props => {
               return (
