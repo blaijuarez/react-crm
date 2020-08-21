@@ -1,12 +1,24 @@
 import Swal from 'sweetalert2'
 import { useMutation } from '@apollo/client'
-import { ELIMINAR_CLIENTE } from 'config/queries'
+import { ELIMINAR_CLIENTE, OBTENER_CLIENTES_USUARIO } from 'config/queries'
 
 export default function Cliente({ cliente }) {
   const { id, nombre, apellido, empresa, email } = cliente
 
   // Mutation eliminar cliente
-  const [ eliminarCliente ] = useMutation(ELIMINAR_CLIENTE)
+  const [ eliminarCliente ] = useMutation(ELIMINAR_CLIENTE, {
+    update(cache) {
+      // obtener copia de la caché
+      const { obtenerClientesVendedor } = cache.readQuery({ query: OBTENER_CLIENTES_USUARIO })
+      // Reescribir la caché
+      cache.writeQuery({
+        query: OBTENER_CLIENTES_USUARIO,
+        data: {
+          obtenerClientesVendedor: obtenerClientesVendedor.filter(cliente => cliente.id !== id)
+        }
+      })
+    }
+  })
   
   // Eliminar cliente
   const confirmarEliminarCliente = (id, nombre, apellido) => {
