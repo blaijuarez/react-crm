@@ -11,8 +11,9 @@ export default function Header() {
 
   if (loading) return null
 
-  if (!data) {
-    return router.push('/login')
+  if (!data.obtenerUsuario) {
+    router.push('/login')
+    return null
   }
 
   const { nombre, apellido } = data.obtenerUsuario
