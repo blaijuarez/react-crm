@@ -54,3 +54,15 @@ export const ELIMINAR_CLIENTE = gql`
     eliminarCliente(id: $id)
   }
 `
+export const OBTENER_CLIENTE = gql`
+  query obtenerCliente($id: ID!) {
+    obtenerCliente(id: $id) {
+      nombre
+      email
+      apellido
+      empresa
+      email
+      telefono
+    }
+  }
+`
