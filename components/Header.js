@@ -1,6 +1,6 @@
-import { useQuery, gql } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
-import { OBTENER_USUARIO } from '../config/queries'
+import { OBTENER_USUARIO } from 'config/queries'
 
 export default function Header() {
   // Router

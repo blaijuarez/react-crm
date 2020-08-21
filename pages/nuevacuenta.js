@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import Layout from '../components/Layout'
+import Layout from 'components/Layout'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useMutation, gql } from '@apollo/client'
-import { CUENTA_NUEVA } from '../config/queries'
+import { useMutation } from '@apollo/client'
+import { CUENTA_NUEVA } from 'config/queries'
 
 export default function NuevaCuenta() {
   // State para el mensaje

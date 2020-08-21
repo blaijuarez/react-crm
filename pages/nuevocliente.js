@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import Layout from '../components/Layout'
+import Layout from 'components/Layout'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useMutation } from '@apollo/client'
-import { NUEVO_CLIENTE, OBTENER_CLIENTES_USUARIO } from '../config/queries'
+import { NUEVO_CLIENTE, OBTENER_CLIENTES_USUARIO } from 'config/queries'
 
 export default function NuevoCliente() {
   // State para el mensaje

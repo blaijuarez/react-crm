@@ -1,8 +1,9 @@
-import { gql, useQuery } from '@apollo/client'
-import Layout from '../components/Layout'
+import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { OBTENER_CLIENTES_USUARIO } from '../config/queries'
+import Layout from 'components/Layout'
+import Cliente from 'components/Cliente'
+import { OBTENER_CLIENTES_USUARIO } from 'config/queries'
 
 export default function Index() {
   // Router
@@ -32,15 +33,15 @@ export default function Index() {
               <th className="w-1/5 py-2">Nombre</th>
               <th className="w-1/5 py-2">Empresa</th>
               <th className="w-1/5 py-2">Email</th>
+              <th className="w-1/5 py-2">Eliminar</th>
             </tr>
           </thead>
           <tbody className="bg-white">
-            { data.obtenerClientesVendedor.map(({id, nombre, apellido, empresa, email}) => (
-              <tr key={id}>
-                <td className="border px-4 py-2">{nombre} {apellido}</td>
-                <td className="border px-4 py-2">{empresa}</td>
-                <td className="border px-4 py-2">{email}</td>
-              </tr>
+            { data.obtenerClientesVendedor.map(cliente => (
+              <Cliente
+                key={cliente.id}
+                cliente={cliente}
+              />
             )) }
           </tbody>
         </table>

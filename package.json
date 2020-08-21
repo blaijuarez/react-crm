@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "linter": "eslint --fix",
     "build": "next build",
     "start": "next start"
   },
@@ -20,8 +21,17 @@
     "npm": "^6.14.8",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "sweetalert2": "^9.17.1",
     "swr": "^0.3.0",
     "yup": "^0.29.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint": "^7.7.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-standard": "^4.0.1"
+  }
 }
