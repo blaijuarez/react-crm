@@ -1,10 +1,18 @@
 import Layout from 'components/Layout'
+import { useRouter } from 'next/router'
 import { useMutation } from '@apollo/client'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import Swal from 'sweetalert2'
 import { NUEVO_PRODUCTO } from 'config/queries'
 
 export default function NuevoProducto() {
+  // Mutation de Apollo
+  const [nuevoProducto] = useMutation(NUEVO_PRODUCTO)
+
+  // Routing
+  const router = useRouter()
+
   // Formulario para nueevos productos
   const formik = useFormik({
     initialValues: {
@@ -22,7 +30,32 @@ export default function NuevoProducto() {
         .required('El precio es obligatorio')
         .positive('No se aceptan números negativos')
     }),
-    onSubmit: async values => {}
+    onSubmit: async values => {
+      try {
+        const {
+          data: { nuevoProducto: data }
+        } = await nuevoProducto({
+          variables: {
+            input: { ...values }
+          }
+        })
+
+        // Texto para unidades
+        const unidadesTxt = data.existencia === 1 ? 'unidad' : 'unidades'
+
+        // Mostrar alert de confirmación
+        Swal.fire(
+          '¡Producto creado!',
+          `Se regitró ${data.existencia} ${unidadesTxt} de ${data.nombre}`,
+          'success'
+        )
+
+        // Redireccionar a productos
+        router.push('/productos')
+      } catch (error) {
+        console.log(error)
+      }
+    }
   })
   return (
     <Layout>
@@ -45,7 +78,7 @@ export default function NuevoProducto() {
               <input
                 className="shadow appareance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="nombre"
-                type="number"
+                type="text"
                 placeholder="Nombre del producto"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -95,7 +128,7 @@ export default function NuevoProducto() {
               <input
                 className="shadow appareance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="precio"
-                type="text"
+                type="number"
                 placeholder="Precio del producto"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
