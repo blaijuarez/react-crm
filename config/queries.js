@@ -82,6 +82,15 @@ export const OBTENER_PRODUCTOS = gql`
     }
   }
 `
+export const OBTENER_PRODUCTO = gql`
+  query obtenerProducto($id: ID!) {
+    obtenerProducto(id: $id) {
+      nombre
+      existencia
+      precio
+    }
+  }
+`
 export const ELIMINAR_PRODUCTO = gql`
   mutation eliminarProducto($id: ID!) {
     eliminarProducto(id: $id)

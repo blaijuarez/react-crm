@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2'
 import { useMutation } from '@apollo/client'
+import Router from 'next/router'
 import { ELIMINAR_PRODUCTO, OBTENER_PRODUCTOS } from 'config/queries'
 
 export default function Producto({ producto }) {
@@ -52,6 +53,12 @@ export default function Producto({ producto }) {
     })
   }
 
+  // Editar producto
+  const editarProducto = () => {
+    // redirige a editarproducto
+    Router.push({ pathname: '/editarproducto/[id]', query: { id } })
+  }
+
   return (
     <tr>
       <td className="border px-4 py-2">{nombre}</td>
@@ -83,7 +90,7 @@ export default function Producto({ producto }) {
         <button
           type="button"
           className="flex justify-center items-center bg-green-600 py-2 px-4 w-full text-white rounded text-xs uppercase font-bold"
-          // onClick={() => editarCliente()}
+          onClick={editarProducto}
         >
           Editar
           <svg
