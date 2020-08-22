@@ -4,11 +4,21 @@ import { useMutation } from '@apollo/client'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Swal from 'sweetalert2'
-import { NUEVO_PRODUCTO } from 'config/queries'
+import { NUEVO_PRODUCTO, OBTENER_PRODUCTOS } from 'config/queries'
 
 export default function NuevoProducto() {
   // Mutation de Apollo
-  const [nuevoProducto] = useMutation(NUEVO_PRODUCTO)
+  const [nuevoProducto] = useMutation(NUEVO_PRODUCTO, {
+    update(cache, { data: { nuevoProducto } }) {
+      // obtener el objeto de caché
+      const { obtenerProductos } = cache.readQuery({ query: OBTENER_PRODUCTOS })
+      // reescribir ese objeto
+      cache.writeQuery({
+        query: OBTENER_PRODUCTOS,
+        data: { obtenerProductos: [...obtenerProductos, nuevoProducto] }
+      })
+    }
+  })
 
   // Routing
   const router = useRouter()
