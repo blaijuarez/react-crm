@@ -23,7 +23,7 @@ export default function NuevoProducto() {
   // Routing
   const router = useRouter()
 
-  // Formulario para nueevos productos
+  // Formulario para nuevos productos
   const formik = useFormik({
     initialValues: {
       nombre: '',

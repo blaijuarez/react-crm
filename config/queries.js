@@ -106,3 +106,12 @@ export const NUEVO_PRODUCTO = gql`
     }
   }
 `
+export const ACTUALIZAR_PRODUCTO = gql`
+  mutation actualizarProducto($id: ID!, $input: ProductoInput) {
+    actualizarProducto(id: $id, input: $input) {
+      nombre
+      existencia
+      precio
+    }
+  }
+`
