@@ -7,6 +7,11 @@ import {
 
 export default function PedidoReducer(state, action) {
   switch (action.type) {
+    case SELECCIONAR_CLIENTE:
+      return {
+        ...state,
+        cliente: action.payload
+      }
     default:
       return state
   }

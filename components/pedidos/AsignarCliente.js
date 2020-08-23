@@ -1,16 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Select from 'react-select'
 import { useQuery } from '@apollo/client'
+import PedidoContext from 'context/pedido/PedidoContext'
 import { OBTENER_CLIENTES_USUARIO } from 'config/queries'
 
 export default function AsignarCliente() {
   const [cliente, setCliente] = useState([])
 
+  // Context de pedidos
+  const pedidoContext = useContext(PedidoContext)
+  const { agregarCliente } = pedidoContext
+
   // Consultar BBDD
   const { data, loading } = useQuery(OBTENER_CLIENTES_USUARIO)
 
   useEffect(() => {
-    console.log(cliente)
+    agregarCliente(cliente)
   }, [cliente])
 
   if (loading) return null
