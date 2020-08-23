@@ -1,11 +1,14 @@
 import { ApolloProvider } from '@apollo/client'
 import client from 'config/apollo'
 import 'styles/globals.css'
+import PedidoState from 'context/pedido/PedidoState'
 
 function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={client}>
-      <Component {...pageProps} />
+      <PedidoState>
+        <Component {...pageProps} />
+      </PedidoState>
     </ApolloProvider>
   )
 }
