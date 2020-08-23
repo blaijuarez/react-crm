@@ -10,24 +10,12 @@ import {
 export default function PedidoState({ children }) {
   // State de Pedidos
   const initialState = {
-    cliente: [],
+    cliente: {},
     productos: [],
     total: 0
   }
 
   const [state, dispatch] = useReducer(PedidoReducer, initialState)
 
-  const holaMundo = () => {
-    console.log('Hola desde PedidoState')
-  }
-
-  return (
-    <PedidoContext.Provider
-      value={{
-        holaMundo
-      }}
-    >
-      {children}
-    </PedidoContext.Provider>
-  )
+  return <PedidoContext.Provider value={{}}>{children}</PedidoContext.Provider>
 }
