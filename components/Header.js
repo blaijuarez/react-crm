@@ -11,7 +11,7 @@ export default function Header() {
 
   if (loading) return null
 
-  if (!data.obtenerUsuario) {
+  if (!data) {
     router.push('/login')
     return null
   }
