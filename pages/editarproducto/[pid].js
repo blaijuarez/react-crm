@@ -36,6 +36,8 @@ export default function EditarProducto() {
 
   if (loading) return 'Cargando...'
 
+  if (!data) return 'Acción no permitida'
+
   const { obtenerProducto } = data
 
   // Modifica producto en la BBDD

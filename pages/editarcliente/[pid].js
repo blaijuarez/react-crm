@@ -35,6 +35,8 @@ export default function EditarCliente() {
 
   if (loading) return 'Cargando...'
 
+  if (!data) return 'Acción no permitida'
+
   const { obtenerCliente } = data
 
   // Modifica cliente en la BBDD
