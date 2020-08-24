@@ -19,15 +19,21 @@ export default function PedidoState({ children }) {
 
   // Modifica cliente
   const agregarCliente = cliente => {
-    console.log(cliente)
     dispatch({
       type: SELECCIONAR_CLIENTE,
       payload: cliente
     })
   }
 
+  const agregarProducto = productos => {
+    dispatch({
+      type: SELECCIONAR_PRODUCTO,
+      payload: productos
+    })
+  }
+
   return (
-    <PedidoContext.Provider value={{ agregarCliente }}>
+    <PedidoContext.Provider value={{ agregarCliente, agregarProducto }}>
       {children}
     </PedidoContext.Provider>
   )

@@ -12,6 +12,11 @@ export default function PedidoReducer(state, action) {
         ...state,
         cliente: action.payload
       }
+    case SELECCIONAR_PRODUCTO:
+      return {
+        ...state,
+        productos: action.payload
+      }
     default:
       return state
   }
