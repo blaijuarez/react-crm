@@ -26,9 +26,25 @@ export default function PedidoState({ children }) {
   }
 
   const agregarProducto = productos => {
+    const productosCantidad = () =>
+      productos.map(producto => {
+        const productoState = state.productos.find(
+          ({ id }) => id === producto.id
+        )
+        return { ...producto, ...productoState }
+      })
+
     dispatch({
       type: SELECCIONAR_PRODUCTO,
-      payload: productos
+      payload: state.productos.length ? productosCantidad() : productos
+    })
+  }
+
+  // modifica las cantidades de los productos
+  const cantidadProductos = nuevoProducto => {
+    dispatch({
+      type: CANTIDAD_PRODUCTOS,
+      payload: nuevoProducto
     })
   }
 
@@ -37,7 +53,8 @@ export default function PedidoState({ children }) {
       value={{
         productos: state.productos,
         agregarCliente,
-        agregarProducto
+        agregarProducto,
+        cantidadProductos
       }}
     >
       {children}

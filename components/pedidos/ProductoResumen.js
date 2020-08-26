@@ -1,4 +1,20 @@
+import { useContext, useState, useEffect } from 'react'
+import PedidoContext from 'context/pedido/PedidoContext'
+
 export default function ProductoResumen({ producto }) {
+  // Context de pedidos
+  const pedidoContext = useContext(PedidoContext)
+  const { cantidadProductos } = pedidoContext
+
+  const [cantidad, setCantidad] = useState(0)
+
+  const actualizarCantidad = () => {
+    const nuevoProducto = { ...producto, cantidad: Number(cantidad) }
+    cantidadProductos(nuevoProducto)
+  }
+
+  useEffect(actualizarCantidad, [cantidad])
+
   const { nombre, precio } = producto
 
   return (
@@ -10,7 +26,9 @@ export default function ProductoResumen({ producto }) {
       <input
         className="shadow apperance-none border rounder w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline md:ml-4"
         type="number"
-        placeholder="Cantidd"
+        placeholder="Cantidad"
+        onChange={e => setCantidad(e.target.value)}
+        value={cantidad}
       />
     </div>
   )
