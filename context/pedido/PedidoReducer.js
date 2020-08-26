@@ -2,8 +2,10 @@ import PedidoContext from './PedidoContext'
 import {
   SELECCIONAR_CLIENTE,
   SELECCIONAR_PRODUCTO,
-  CANTIDAD_PRODUCTOS
+  CANTIDAD_PRODUCTOS,
+  ACTUALIZAR_TOTAL
 } from 'types'
+import { ACTUALIZAR_CLIENTE } from 'config/queries'
 
 export default function PedidoReducer(state, action) {
   switch (action.type) {
@@ -24,6 +26,15 @@ export default function PedidoReducer(state, action) {
           producto.id === action.payload.id ? action.payload : producto
         )
       }
+    case ACTUALIZAR_TOTAL:
+      return {
+        ...state,
+        total: state.productos.reduce(
+          (acc, { precio, cantidad }) => acc + precio * cantidad,
+          0
+        )
+      }
+
     default:
       return state
   }

@@ -4,7 +4,7 @@ import PedidoContext from 'context/pedido/PedidoContext'
 export default function ProductoResumen({ producto }) {
   // Context de pedidos
   const pedidoContext = useContext(PedidoContext)
-  const { cantidadProductos } = pedidoContext
+  const { cantidadProductos, actualizarTotal } = pedidoContext
 
   const [cantidad, setCantidad] = useState(0)
 
@@ -13,7 +13,10 @@ export default function ProductoResumen({ producto }) {
     cantidadProductos(nuevoProducto)
   }
 
-  useEffect(actualizarCantidad, [cantidad])
+  useEffect(() => {
+    actualizarCantidad()
+    actualizarTotal()
+  }, [cantidad])
 
   const { nombre, precio } = producto
 
