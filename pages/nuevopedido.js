@@ -7,7 +7,7 @@ import AsignarCliente from 'components/pedidos/AsignarCliente'
 import AsignarProductos from 'components/pedidos/AsignarProductos'
 import ResumenPedido from 'components/pedidos/ResumenPedido'
 import Total from 'components/pedidos/Total'
-import { NUEVO_PEDIDO } from 'config/queries'
+import { NUEVO_PEDIDO, OBTENER_PEDIDOS } from 'config/queries'
 
 // Context de Pedidos
 import PedidoContext from 'context/pedido/PedidoContext'
@@ -22,7 +22,19 @@ export default function NuevoPedido() {
   const { cliente, productos, total } = pedidoContext
 
   // Mutation de nuevo pedido
-  const [nuevoPedido] = useMutation(NUEVO_PEDIDO)
+  const [nuevoPedido] = useMutation(NUEVO_PEDIDO, {
+    update(cache, { data: { nuevoPedido } }) {
+      const { obtenerPedidosVendedor } = cache.readQuery({
+        query: OBTENER_PEDIDOS
+      })
+      cache.writeQuery({
+        query: OBTENER_PEDIDOS,
+        data: {
+          obtenerPedidosVendedor: [...obtenerPedidosVendedor, nuevoPedido]
+        }
+      })
+    }
+  })
 
   const validarPedido = () => {
     return !productos.every(({ cantidad }) => cantidad > 0) ||
@@ -40,7 +52,7 @@ export default function NuevoPedido() {
     )
 
     try {
-      const data = await nuevoPedido({
+      await nuevoPedido({
         variables: {
           input: {
             cliente: id,
