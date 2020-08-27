@@ -1,24 +1,73 @@
 import { useEffect, useState } from 'react'
+import { useMutation } from '@apollo/client'
+import { ACTUALIZAR_PEDIDO } from 'config/queries'
 
 export default function Pedido({ pedido }) {
   const {
     id,
     total,
+    cliente,
     cliente: { nombre, apellido, email, telefono },
     estado,
     pedido: pedidoInfo
   } = pedido
 
+  const ESTADO = {
+    COMPLETADO: 'COMPLETADO',
+    PENDIENTE: 'PENDIENTE',
+    CANCELADO: 'CANCELADO'
+  }
+
+  // Mutation para cambiar el estado del pedido
+  const [actualizarPedido] = useMutation(ACTUALIZAR_PEDIDO)
+
   const [estadoPedido, setEstadoPedido] = useState(estado)
+  const [clase, setClase] = useState('')
 
   useEffect(() => {
     if (estadoPedido) {
       setEstadoPedido(estadoPedido)
     }
+    clasePedido()
   }, [estadoPedido])
 
+  // Modifica el color del pedido según el estado
+  const clasePedido = () => {
+    switch (estadoPedido) {
+      case ESTADO.COMPLETADO:
+        setClase('border-green-500')
+        break
+      case ESTADO.PENDIENTE:
+        setClase('border-yellow-500')
+        break
+      default:
+        setClase('border-red-800')
+        break
+    }
+  }
+
+  const cambiarEstadoPedido = async nuevoEstado => {
+    try {
+      const { data } = await actualizarPedido({
+        variables: {
+          id,
+          input: {
+            estado: nuevoEstado,
+            cliente: cliente.id
+          }
+        }
+      })
+      console.log(data)
+      setEstadoPedido(nuevoEstado)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <div className="mt-4 bg-white rounded p-6 md:grid md:grid-cols-2 md:gap-4 shadow-lg">
+    <div
+      className={`${clase} border-t-4 mt-4 bg-white rounded p-6 md:grid md:grid-cols-2 md:gap-4 shadow-lg`}
+    >
       <div>
         <p className="font-bold text-gray-800">
           Cliente: {nombre} {apellido}
@@ -66,10 +115,11 @@ export default function Pedido({ pedido }) {
         <select
           value={estadoPedido}
           className="mt-2 appearance-none bg-blue-600 border border-blue-600 text-white p-2 text-center rounded leading-tight focus:outline-none focus:bg-blue-600 focus:border-blue-500 uppercase text-xs font-bold"
+          onChange={({ target }) => cambiarEstadoPedido(target.value)}
         >
-          <option value="COMPLETADO">COMPLETADO</option>
-          <option value="PENDIENTE">PENDIENTE</option>
-          <option value="CANCELADO">CANCELADO</option>
+          <option value={ESTADO.COMPLETADO}>{ESTADO.COMPLETADO}</option>
+          <option value={ESTADO.PENDIENTE}>{ESTADO.PENDIENTE}</option>
+          <option value={ESTADO.CANCELADO}>{ESTADO.CANCELADO}</option>
         </select>
       </div>
       <div>

@@ -144,3 +144,10 @@ export const OBTENER_PEDIDOS = gql`
     }
   }
 `
+export const ACTUALIZAR_PEDIDO = gql`
+  mutation actualizarPedido($id: ID!, $input: PedidoInput) {
+    actualizarPedido(id: $id, input: $input) {
+      estado
+    }
+  }
+`
