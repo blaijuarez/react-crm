@@ -7,6 +7,8 @@ import Pedido from 'components/Pedido'
 export default function Pedidos() {
   const { data, loading } = useQuery(OBTENER_PEDIDOS)
 
+  console.log(data)
+
   if (loading) return 'Cargando...'
 
   const { obtenerPedidosVendedor } = data
