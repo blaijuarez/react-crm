@@ -151,3 +151,8 @@ export const ACTUALIZAR_PEDIDO = gql`
     }
   }
 `
+export const ELIMINAR_PEDIDO = gql`
+  mutation eliminarPedido($id: ID!) {
+    eliminarPedido(id: $id)
+  }
+`

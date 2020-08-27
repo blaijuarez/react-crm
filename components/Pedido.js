@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useMutation } from '@apollo/client'
-import { ACTUALIZAR_PEDIDO } from 'config/queries'
+import Swal from 'sweetalert2'
+import { ACTUALIZAR_PEDIDO, ELIMINAR_PEDIDO } from 'config/queries'
 
 export default function Pedido({ pedido }) {
   const {
@@ -20,6 +21,8 @@ export default function Pedido({ pedido }) {
 
   // Mutation para cambiar el estado del pedido
   const [actualizarPedido] = useMutation(ACTUALIZAR_PEDIDO)
+  // Mutation para eliminar el pedido
+  const [eliminarPedido] = useMutation(ELIMINAR_PEDIDO)
 
   const [estadoPedido, setEstadoPedido] = useState(estado)
   const [clase, setClase] = useState('')
@@ -62,6 +65,33 @@ export default function Pedido({ pedido }) {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const confirmarEliminarPedido = async () => {
+    Swal.fire({
+      title: 'Vas a eliminar este pedido',
+      text: 'Una vez eliminado no se podrá recuperar',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'No, cancelar'
+    }).then(async result => {
+      if (result.value) {
+        try {
+          // Eliminar pedido de la BBDD
+          const { data } = await eliminarPedido({
+            variables: { id }
+          })
+
+          // Abre modal de confirmación
+          Swal.fire('¡Eliminado!', data.eliminarPedido, 'success')
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    })
   }
 
   return (
@@ -133,7 +163,10 @@ export default function Pedido({ pedido }) {
         <p className="text-gray-800 mt-3 font-bold">
           Total a Pagar:
           <span className="font-light ml-2">{total}€</span>
-          <button className="flex items-center mt-4 bg-red-800 px-5 py-2 inline-block text-white rounded leading-tight uppercase text-xs text-bold">
+          <button
+            className="flex items-center mt-4 bg-red-800 px-5 py-2 inline-block text-white rounded leading-tight uppercase text-xs text-bold"
+            onClick={confirmarEliminarPedido}
+          >
             Eliminar Pedido
             <svg
               fill="none"
