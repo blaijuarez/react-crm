@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useMutation } from '@apollo/client'
 import Swal from 'sweetalert2'
-import { ACTUALIZAR_PEDIDO, ELIMINAR_PEDIDO } from 'config/queries'
+import {
+  OBTENER_PEDIDOS,
+  ACTUALIZAR_PEDIDO,
+  ELIMINAR_PEDIDO
+} from 'config/queries'
 
 export default function Pedido({ pedido }) {
   const {
@@ -22,7 +26,21 @@ export default function Pedido({ pedido }) {
   // Mutation para cambiar el estado del pedido
   const [actualizarPedido] = useMutation(ACTUALIZAR_PEDIDO)
   // Mutation para eliminar el pedido
-  const [eliminarPedido] = useMutation(ELIMINAR_PEDIDO)
+  const [eliminarPedido] = useMutation(ELIMINAR_PEDIDO, {
+    update(cache) {
+      const { obtenerPedidosVendedor } = cache.readQuery({
+        query: OBTENER_PEDIDOS
+      })
+      cache.writeQuery({
+        query: OBTENER_PEDIDOS,
+        data: {
+          obtenerPedidosVendedor: obtenerPedidosVendedor.filter(
+            pedido => pedido.id !== id
+          )
+        }
+      })
+    }
+  })
 
   const [estadoPedido, setEstadoPedido] = useState(estado)
   const [clase, setClase] = useState('')
@@ -51,7 +69,7 @@ export default function Pedido({ pedido }) {
 
   const cambiarEstadoPedido = async nuevoEstado => {
     try {
-      const { data } = await actualizarPedido({
+      await actualizarPedido({
         variables: {
           id,
           input: {
@@ -60,7 +78,6 @@ export default function Pedido({ pedido }) {
           }
         }
       })
-      console.log(data)
       setEstadoPedido(nuevoEstado)
     } catch (error) {
       console.log(error)
