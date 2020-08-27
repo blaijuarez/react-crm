@@ -28,6 +28,7 @@ export default function PedidoState({ children }) {
   }
 
   const agregarProducto = productos => {
+    if (!productos) return {}
     const productosCantidad = () =>
       productos.map(producto => {
         const productoState = state.productos.find(
@@ -60,6 +61,7 @@ export default function PedidoState({ children }) {
   return (
     <PedidoContext.Provider
       value={{
+        cliente: state.cliente,
         productos: state.productos,
         total: state.total,
         agregarCliente,

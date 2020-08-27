@@ -5,7 +5,7 @@ import PedidoContext from 'context/pedido/PedidoContext'
 import { OBTENER_CLIENTES_USUARIO } from 'config/queries'
 
 export default function AsignarCliente() {
-  const [cliente, setCliente] = useState([])
+  const [cliente, setCliente] = useState(null)
 
   // Context de pedidos
   const pedidoContext = useContext(PedidoContext)

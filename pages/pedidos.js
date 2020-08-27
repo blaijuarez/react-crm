@@ -1,7 +1,16 @@
 import Layout from 'components/Layout'
 import Link from 'next/link'
+import { useQuery } from '@apollo/client'
+import { OBTENER_PEDIDOS } from 'config/queries'
+import Pedido from 'components/Pedido'
 
 export default function Pedidos() {
+  const { data, loading } = useQuery(OBTENER_PEDIDOS)
+
+  if (loading) return 'Cargando...'
+
+  const { obtenerPedidosVendedor } = data
+
   return (
     <div>
       <Layout>
@@ -12,6 +21,13 @@ export default function Pedidos() {
             Nuevo Pedido
           </a>
         </Link>
+        {obtenerPedidosVendedor.length ? (
+          obtenerPedidosVendedor.map(pedido => (
+            <Pedido key={pedido.id} pedido={pedido} />
+          ))
+        ) : (
+          <p className="mt-5 text-center text-2xl">No hay pedidos</p>
+        )}
       </Layout>
     </div>
   )

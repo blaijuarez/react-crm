@@ -115,3 +115,25 @@ export const ACTUALIZAR_PRODUCTO = gql`
     }
   }
 `
+export const NUEVO_PEDIDO = gql`
+  mutation nuevoPedido($input: PedidoInput) {
+    nuevoPedido(input: $input) {
+      id
+    }
+  }
+`
+export const OBTENER_PEDIDOS = gql`
+  query obtenerPedidosVendedor {
+    obtenerPedidosVendedor {
+      id
+      pedido {
+        id
+        cantidad
+      }
+      cliente
+      vendedor
+      total
+      estado
+    }
+  }
+`
