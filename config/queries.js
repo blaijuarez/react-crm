@@ -156,3 +156,25 @@ export const ELIMINAR_PEDIDO = gql`
     eliminarPedido(id: $id)
   }
 `
+export const MEJORES_VENDEDORES = gql`
+  query mejoresVendedores {
+    mejoresVendedores {
+      vendedor {
+        nombre
+        email
+      }
+      total
+    }
+  }
+`
+export const MEJORES_CLIENTES = gql`
+  query mejoresClientes {
+    mejoresClientes {
+      cliente {
+        nombre
+        empresa
+      }
+      total
+    }
+  }
+`
