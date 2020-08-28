@@ -37,11 +37,14 @@ export default function Login() {
 
         // Usuario creado correctamente
         guardarMensaje('Autenticando...')
-        // Guardar token en sesion storage
-        const {
-          autenticarUsuario: { token }
-        } = data
-        sessionStorage.setItem('token', token)
+
+        setTimeout(() => {
+          // Guardar token en sesion storage
+          const {
+            autenticarUsuario: { token }
+          } = data
+          sessionStorage.setItem('token', token)
+        }, 1000)
 
         setTimeout(() => {
           guardarMensaje(null)
