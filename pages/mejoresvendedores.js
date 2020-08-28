@@ -5,7 +5,8 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend
+  Legend,
+  ResponsiveContainer
 } from 'recharts'
 import { useEffect } from 'react'
 import { useQuery } from '@apollo/client'
@@ -38,7 +39,7 @@ export default function MejoresVendedores() {
     <Layout>
       <h1 className="text-2xl text-gray-800 font-light">Mejores Vendedores</h1>
 
-      <div className="ml-5">
+      <ResponsiveContainer width={'99%'} height={550}>
         <BarChart
           className="mt-10"
           width={600}
@@ -58,7 +59,7 @@ export default function MejoresVendedores() {
           <Legend />
           <Bar dataKey="total" fill="#3182CE" />
         </BarChart>
-      </div>
+      </ResponsiveContainer>
     </Layout>
   )
 }
