@@ -29,8 +29,6 @@ export default function MejoresVendedores() {
 
   const { mejoresVendedores } = data
 
-  console.log(data)
-
   const vendedorGrafica = mejoresVendedores.map(({ vendedor, total }) => ({
     ...vendedor[0],
     total
@@ -38,7 +36,7 @@ export default function MejoresVendedores() {
 
   return (
     <Layout>
-      <h1 className="text-2xl text-gray-800 font-light">MejoresVendedores</h1>
+      <h1 className="text-2xl text-gray-800 font-light">Mejores Vendedores</h1>
 
       <div className="ml-5">
         <BarChart
